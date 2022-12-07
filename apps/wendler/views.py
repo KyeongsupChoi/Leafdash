@@ -11,10 +11,10 @@ from django.urls import reverse
 
 
 @login_required(login_url="/login/")
-def index(request):
-    context = {'segment': 'index'}
-
-    html_template = loader.get_template('home/index.html')
+def wendler_view(request):
+    context = {'segment': 'wendler'}
+    print("hey")
+    html_template = loader.get_template('home/wendler.html')
     return HttpResponse(html_template.render(context, request))
 
 
@@ -28,9 +28,8 @@ def pages(request):
         load_template = request.path.split('/')[-1]
 
         if load_template == 'admin':
-            return HttpResponseRedirect(reverse('admin:index'))
+            return HttpResponseRedirect(reverse('admin:wendler'))
         context['segment'] = load_template
-
         html_template = loader.get_template('home/' + load_template)
         return HttpResponse(html_template.render(context, request))
 
