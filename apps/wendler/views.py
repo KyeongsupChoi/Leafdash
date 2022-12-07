@@ -6,16 +6,39 @@ Copyright (c) 2019 - present AppSeed.us
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse
+from .forms import WendlerForm
+
+
+'''@login_required(login_url="/login/")
+def wendler_view(request):
+    context = {'segment': 'wendler',
+               'number':3}
+    html_template = loader.get_template('home/wendler.html')
+    return HttpResponse(html_template.render(context, request))'''
 
 
 @login_required(login_url="/login/")
 def wendler_view(request):
-    context = {'segment': 'wendler'}
-    print("hey")
-    html_template = loader.get_template('home/wendler.html')
-    return HttpResponse(html_template.render(context, request))
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = WendlerForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            number = request.POST['oneRepMax'] * 3
+            return render(request, 'home/wendler.html', {'form': form, 'number': number})
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = WendlerForm()
+
+    return render(request, 'home/wendler.html', {'form': form})
 
 
 @login_required(login_url="/login/")
