@@ -31,25 +31,25 @@ def wendler_view(request):
 
             # Initializes a dictionary for containing calculated exercises
             calculated_dict = {
-                'week1': {'set1': (number * 0.40 - 20) / 2,
-                          'set2': (number * 0.65 - 20) / 2,
-                          'set3': (number * 0.75 - 20) / 2,
-                          'set4': (number * 0.85 - 20) / 2},
+                'week1': {'set1': str((number * 0.40 - 20) / 2) + 'kgx5',
+                          'set2': str((number * 0.65 - 20) / 2) + 'kgx5',
+                          'set3': str((number * 0.75 - 20) / 2) + 'kgx5',
+                          'set4': str((number * 0.85 - 20) / 2) + 'kgx5'},
 
-                'week2': {'set1': (number * 0.40 - 20) / 2,
-                          'set2': (number * 0.70 - 20) / 2,
-                          'set3': (number * 0.80 - 20) / 2,
-                          'set4': (number * 0.90 - 20) / 2},
+                'week2': {'set1': str((number * 0.40 - 20) / 2) + 'kgx3',
+                          'set2': str((number * 0.70 - 20) / 2) + 'kgx3',
+                          'set3': str((number * 0.80 - 20) / 2) + 'kgx3',
+                          'set4': str((number * 0.90 - 20) / 2) + 'kgx3'},
 
-                'week3': {'set1': (number * 0.40 - 20) / 2,
-                          'set2': (number * 0.75 - 20) / 2,
-                          'set3': (number * 0.85 - 20) / 2,
-                          'set4': (number * 0.95 - 20) / 2},
+                'week3': {'set1': str((number * 0.40 - 20) / 2) + 'kgx5',
+                          'set2': str((number * 0.75 - 20) / 2) + 'kgx5',
+                          'set3': str((number * 0.85 - 20) / 2) + 'kgx3',
+                          'set4': str((number * 0.95 - 20) / 2) + 'kgx1'},
 
-                'week4': {'set1': (number * 0.40 - 20) / 2,
-                          'set2': (number * 0.40 - 20) / 2,
-                          'set3': (number * 0.50 - 20) / 2,
-                          'set4': (number * 0.60 - 20) / 2},
+                'week4': {'set1': str((number * 0.40 - 20) / 2) + 'kgx5',
+                          'set2': str((number * 0.40 - 20) / 2) + 'kgx5',
+                          'set3': str((number * 0.50 - 20) / 2) + 'kgx5',
+                          'set4': str((number * 0.60 - 20) / 2) + 'kgx5'},
             }
 
             return render(request, 'home/wendler.html',
