@@ -11,7 +11,6 @@ from django.template import loader
 from django.urls import reverse
 from .forms import WendlerForm
 
-
 '''@login_required(login_url="/login/")
 def wendler_view(request):
     context = {'segment': 'wendler',
@@ -22,19 +21,40 @@ def wendler_view(request):
 
 @login_required(login_url="/login/")
 def wendler_view(request):
-    # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = WendlerForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            number = request.POST['oneRepMax'] * 3
-            return render(request, 'home/wendler.html', {'form': form, 'number': number})
 
-    # if a GET (or any other method) we'll create a blank form
+        form = WendlerForm(request.POST)
+
+        if form.is_valid():
+            # Takes the input of one Rep Max and assigns it to the number variable
+            number = int(request.POST['oneRepMax'])
+
+            # Initializes a dictionary for containing calculated exercises
+            calculated_dict = {
+                'week1': {'set1': (number * 0.40 - 20) / 2,
+                          'set2': (number * 0.65 - 20) / 2,
+                          'set3': (number * 0.75 - 20) / 2,
+                          'set4': (number * 0.85 - 20) / 2},
+
+                'week2': {'set1': (number * 0.40 - 20) / 2,
+                          'set2': (number * 0.70 - 20) / 2,
+                          'set3': (number * 0.80 - 20) / 2,
+                          'set4': (number * 0.90 - 20) / 2},
+
+                'week3': {'set1': (number * 0.40 - 20) / 2,
+                          'set2': (number * 0.75 - 20) / 2,
+                          'set3': (number * 0.85 - 20) / 2,
+                          'set4': (number * 0.95 - 20) / 2},
+
+                'week4': {'set1': (number * 0.40 - 20) / 2,
+                          'set2': (number * 0.40 - 20) / 2,
+                          'set3': (number * 0.50 - 20) / 2,
+                          'set4': (number * 0.60 - 20) / 2},
+            }
+
+            return render(request, 'home/wendler.html',
+                          {'form': form, 'number': number, 'calculated_dict': calculated_dict})
+
     else:
         form = WendlerForm()
 
