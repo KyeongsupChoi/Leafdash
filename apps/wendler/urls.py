@@ -11,6 +11,7 @@ urlpatterns = [
     # The home page
     path('wendler.html', views.wendler_view, name='wendler'),
 
+    path('export/', views.some_view, name='exporty'),
     # Matches any html file
 
 ]
