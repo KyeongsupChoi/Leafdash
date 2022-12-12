@@ -21,10 +21,14 @@ def wendler_view(request):
     html_template = loader.get_template('home/wendler.html')
     return HttpResponse(html_template.render(context, request))'''
 
+zoop = 2
+
 @login_required(login_url="/login/")
 def some_view(request):
     # Create a file-like buffer to receive PDF data.
     buffer = io.BytesIO()
+
+    print(zoop)
 
     # Create the PDF object, using the buffer as its "file."
     p = canvas.Canvas(buffer)
@@ -32,6 +36,7 @@ def some_view(request):
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
     p.drawString(100, 100, "Hello world.")
+    p.drawString(100, 100, str(zoop))
 
     # Close the PDF object cleanly, and we're done.
     p.showPage()
@@ -52,6 +57,8 @@ def wendler_view(request):
 
             # Takes the input of one Rep Max and assigns it to the number variable
             number = int(request.POST['oneRepMax'])
+            global zoop
+            zoop = number
 
             # The list of percentages from the Wendler 531 regimen
             percentage_list = [0.40, 0.50, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
@@ -98,6 +105,8 @@ def wendler_view(request):
                           'set3': str(calculated_dict[0.5]) + 'kgx5',
                           'set4': str(calculated_dict[0.6]) + 'kgx5'},
             }
+
+            zoop = exercise_dict
 
             return render(request, 'home/wendler.html',
                           {'form': form, 'number': number, 'calculated_dict': exercise_dict})
