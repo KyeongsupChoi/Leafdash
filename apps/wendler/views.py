@@ -9,6 +9,13 @@ from django.http import HttpResponse, HttpResponseRedirect, FileResponse
 from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse
+
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import Table, TableStyle, Paragraph
+from reportlab.pdfgen.canvas import Canvas
+from reportlab.lib.styles import getSampleStyleSheet
+
 from .forms import WendlerForm
 from reportlab.pdfgen import canvas
 import io
@@ -21,26 +28,46 @@ def wendler_view(request):
     html_template = loader.get_template('home/wendler.html')
     return HttpResponse(html_template.render(context, request))'''
 
-zoop = 2
+global_wendler_list = {}
 
 @login_required(login_url="/login/")
 def some_view(request):
-    # Create a file-like buffer to receive PDF data.
+
+    styles = getSampleStyleSheet()
+    style = styles["BodyText"]
+
     buffer = io.BytesIO()
 
-    print(zoop)
+    canv = canvas.Canvas(buffer)
 
-    # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer)
+    table_list = list(global_wendler_list.items())
 
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, "Hello world.")
-    p.drawString(100, 100, str(zoop))
+    header = Paragraph("<bold><font size=18>Wendler Exercise List</font></bold>", style)
 
-    # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
+    data = table_list
+    t = Table(data)
+    t.setStyle(TableStyle([("BOX", (0, 0), (-1, -1), 0.25, colors.black),
+                           ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
+    data_len = len(data)
+
+    for each in range(data_len):
+        if each % 2 == 0:
+            bg_color = colors.whitesmoke
+        else:
+            bg_color = colors.lightgrey
+
+        t.setStyle(TableStyle([('BACKGROUND', (0, each), (-1, each), bg_color)]))
+
+    aW = 540
+    aH = 720
+
+    w, h = header.wrap(aW, aH)
+    header.drawOn(canv, 72, aH)
+    aH = aH - h
+    w, h = t.wrap(aW, aH)
+    t.drawOn(canv, 72, aH - h)
+    canv.save()
+
 
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
@@ -57,8 +84,7 @@ def wendler_view(request):
 
             # Takes the input of one Rep Max and assigns it to the number variable
             number = int(request.POST['oneRepMax'])
-            global zoop
-            zoop = number
+            global global_wendler_list
 
             # The list of percentages from the Wendler 531 regimen
             percentage_list = [0.40, 0.50, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
@@ -106,7 +132,7 @@ def wendler_view(request):
                           'set4': str(calculated_dict[0.6]) + 'kgx5'},
             }
 
-            zoop = exercise_dict
+            global_wendler_list = exercise_dict
 
             return render(request, 'home/wendler.html',
                           {'form': form, 'number': number, 'calculated_dict': exercise_dict})
