@@ -81,9 +81,9 @@ def wendler_view(request):
         form = WendlerForm(request.POST)
 
         if form.is_valid():
-
+            form.save()
             # Takes the input of one Rep Max and assigns it to the number variable
-            number = int(request.POST['oneRepMax'])
+            number = int(request.POST['weight'])
             global global_wendler_list
 
             # The list of percentages from the Wendler 531 regimen
