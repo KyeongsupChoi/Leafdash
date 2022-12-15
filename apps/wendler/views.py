@@ -40,11 +40,19 @@ def some_view(request):
 
     canv = canvas.Canvas(buffer)
 
-    table_list = list(global_wendler_list.items())
+    empty_list = []
+
+    empty_list.append(['Week No.', 'Set 1', "Set 2", "Set 3", "Set 4"])
+    empty_list.append(['Week 1'] + list(global_wendler_list['week1'].values()))
+    empty_list.append(['Week 2'] + list(global_wendler_list['week2'].values()))
+    empty_list.append(['Week 3'] + list(global_wendler_list['week3'].values()))
+    empty_list.append(['Week 4'] + list(global_wendler_list['week4'].values()))
+
+    print(empty_list)
 
     header = Paragraph("<bold><font size=18>Wendler Exercise List</font></bold>", style)
 
-    data = table_list
+    data = empty_list
     t = Table(data)
     t.setStyle(TableStyle([("BOX", (0, 0), (-1, -1), 0.25, colors.black),
                            ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
@@ -62,7 +70,7 @@ def some_view(request):
     aH = 720
 
     w, h = header.wrap(aW, aH)
-    header.drawOn(canv, 72, aH)
+    header.drawOn(canv, 72, 800)
     aH = aH - h
     w, h = t.wrap(aW, aH)
     t.drawOn(canv, 72, aH - h)
