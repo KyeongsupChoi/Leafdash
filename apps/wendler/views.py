@@ -43,10 +43,10 @@ def some_view(request):
     empty_list = []
 
     empty_list.append(['Week No.', 'Set 1', "Set 2", "Set 3", "Set 4"])
-    empty_list.append(['Week 1'] + list(global_wendler_list['week1'].values()))
-    empty_list.append(['Week 2'] + list(global_wendler_list['week2'].values()))
-    empty_list.append(['Week 3'] + list(global_wendler_list['week3'].values()))
-    empty_list.append(['Week 4'] + list(global_wendler_list['week4'].values()))
+    empty_list.append(['Week 1'] + list(global_wendler_list['Week 1'].values()))
+    empty_list.append(['Week 2'] + list(global_wendler_list['Week 2'].values()))
+    empty_list.append(['Week 3'] + list(global_wendler_list['Week 3'].values()))
+    empty_list.append(['Week 4'] + list(global_wendler_list['Week 4'].values()))
 
     print(empty_list)
 
@@ -114,30 +114,34 @@ def wendler_view(request):
                 else:
                     calc_num = calc_num + 2.5 - (calc_num % 2.5)
 
+                # Conditional for replacing negatives with zeros
+                if calc_num < 0:
+                    calc_num = 0
+
                 # Assigning weight value to the percentage key
                 calculated_dict[num] = calc_num
 
             # Initializes a dictionary for containing calculated exercise sets
             exercise_dict = {
-                'week1': {'set1': str(calculated_dict[0.4]) + 'kgx5',
-                          'set2': str(calculated_dict[0.65]) + 'kgx5',
-                          'set3': str(calculated_dict[0.75]) + 'kgx5',
-                          'set4': str(calculated_dict[0.85]) + 'kgx5'},
+                'Week 1': {'Set 1': str(calculated_dict[0.4]) + 'kgx5',
+                          'Set 2': str(calculated_dict[0.65]) + 'kgx5',
+                          'Set 3': str(calculated_dict[0.75]) + 'kgx5',
+                          'Set 4': str(calculated_dict[0.85]) + 'kgx5'},
 
-                'week2': {'set1': str(calculated_dict[0.4]) + 'kgx3',
-                          'set2': str(calculated_dict[0.7]) + 'kgx3',
-                          'set3': str(calculated_dict[0.8]) + 'kgx3',
-                          'set4': str(calculated_dict[0.9]) + 'kgx3'},
+                'Week 2': {'Set 1': str(calculated_dict[0.4]) + 'kgx3',
+                          'Set 2': str(calculated_dict[0.7]) + 'kgx3',
+                          'Set 3': str(calculated_dict[0.8]) + 'kgx3',
+                          'Set 4': str(calculated_dict[0.9]) + 'kgx3'},
 
-                'week3': {'set1': str(calculated_dict[0.4]) + 'kgx5',
-                          'set2': str(calculated_dict[0.75]) + 'kgx5',
-                          'set3': str(calculated_dict[0.85]) + 'kgx3',
-                          'set4': str(calculated_dict[0.95]) + 'kgx1'},
+                'Week 3': {'Set 1': str(calculated_dict[0.4]) + 'kgx5',
+                          'Set 2': str(calculated_dict[0.75]) + 'kgx5',
+                          'Set 3': str(calculated_dict[0.85]) + 'kgx3',
+                          'Set 4': str(calculated_dict[0.95]) + 'kgx1'},
 
-                'week4': {'set1': str(calculated_dict[0.4]) + 'kgx5',
-                          'set2': str(calculated_dict[0.4]) + 'kgx5',
-                          'set3': str(calculated_dict[0.5]) + 'kgx5',
-                          'set4': str(calculated_dict[0.6]) + 'kgx5'},
+                'Week 4': {'Set 1': str(calculated_dict[0.4]) + 'kgx5',
+                          'Set 2': str(calculated_dict[0.4]) + 'kgx5',
+                          'Set 3': str(calculated_dict[0.5]) + 'kgx5',
+                          'Set 4': str(calculated_dict[0.6]) + 'kgx5'},
             }
 
             global_wendler_list = exercise_dict
