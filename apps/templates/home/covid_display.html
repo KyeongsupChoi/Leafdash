@@ -46,7 +46,9 @@
                         <div class="fs-5 fw-normal mb-2">Sales Value Display</div>
                         <h2 class="fs-3 fw-extrabold">$10,56sss7</h2>
                         {{ users }}
-                                      sss
+                        {% autoescape off %}
+  {{ plt_div }}
+  {% endautoescape %}
                         <div class="small mt-2"> 
                             <span class="fw-normal me-2">Yesterday</span>                              
                             <span class="fas fa-angle-up text-success"></span>                                   

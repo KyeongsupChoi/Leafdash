@@ -7,6 +7,8 @@ from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse
 import requests
+from plotly.offline import plot
+import plotly.graph_objs as go
 
 
 @login_required(login_url="/login/")
@@ -15,4 +17,13 @@ def covid_display(request):
     # convert reponse data into json
     users = response.json()
 
-    return render(request, 'home/covid_display.html', {'users': users})
+    fig = go.Figure()
+    scatter = go.Scatter(x=[0, 1, 2, 3], y=[0, 1, 2, 3],
+                         mode='lines', name='test',
+                         opacity=0.8, marker_color='green')
+    fig.add_trace(scatter)
+    plt_div = plot(fig, output_type='div')
+
+    context = {'plt_div': plt_div, 'users': users}
+
+    return render(request, 'home/covid_display.html', context)
