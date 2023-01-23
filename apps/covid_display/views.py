@@ -13,7 +13,18 @@ import plotly.graph_objs as go
 
 @login_required(login_url="/login/")
 def covid_display(request):
-    response = requests.get('https://api.covid19api.com/country/south-korea/status/confirmed?from=2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z')
+    url = "https://covid-193.p.rapidapi.com/history"
+
+    headers = {
+        "X-RapidAPI-Key": "21c4febd1cmsh939ae64962c6da3p1994cajsn4ac28b07c9c7",
+        "X-RapidAPI-Host": "covid-193.p.rapidapi.com",
+    }
+
+    querystring = {"country": "S-Korea", "day": "2020-06-02"}
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    print(response.text)
     # convert reponse data into json
     users = response.json()
 
