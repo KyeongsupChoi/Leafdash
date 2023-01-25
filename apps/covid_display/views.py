@@ -10,9 +10,12 @@ import requests
 from plotly.offline import plot
 import plotly.graph_objs as go
 
+import pandas as pd
+
 
 @login_required(login_url="/login/")
 def covid_display(request):
+    '''
     url = "https://covid-193.p.rapidapi.com/history"
 
     headers = {
@@ -23,13 +26,17 @@ def covid_display(request):
     querystring = {"country": "S-Korea", "day": "2020-06-02"}
 
     response = requests.request("GET", url, headers=headers, params=querystring)
+    '''
+    df = pd.read_csv('owid-covid-data.csv')
+    df = df[df.location == 'South Korea']
 
-    print(response.text)
+    print(df)
+
     # convert reponse data into json
-    users = response.json()
+    users = {"sd":"sdsd"}
 
     fig = go.Figure()
-    scatter = go.Scatter(x=[0, 1, 2, 3], y=[0, 1, 2, 3],
+    scatter = go.Scatter(x=df.date, y=df.new_cases,
                          mode='lines', name='test',
                          opacity=0.8, marker_color='green')
     fig.add_trace(scatter)
